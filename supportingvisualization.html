@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>NYPD Complaint Substantiation Rates</title>
+	<script src="https://d3js.org/d3.v7.min.js"></script>
+	<style>
+		:root {
+			--bg: #f6efe4;
+			--panel: #fffaf3;
+			--text: #1f2937;
+			--muted: #6b7280;
+			--accent: #0f766e;
+			--accent-soft: #b7e4df;
+			--black: #111827;
+			--grid: rgba(31, 41, 55, 0.12);
+			--shadow: 0 20px 60px rgba(31, 41, 55, 0.12);
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: Georgia, "Times New Roman", serif;
+			color: var(--text);
+			background:
+				radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 26%),
+				radial-gradient(circle at top right, rgba(250, 204, 21, 0.12), transparent 22%),
+				linear-gradient(180deg, #fbf6ee 0%, var(--bg) 100%);
+			min-height: 100vh;
+		}
+
+		.page {
+			max-width: 1120px;
+			margin: 0 auto;
+			padding: 32px 20px 40px;
+		}
+
+		.card {
+			background: rgba(255, 250, 243, 0.92);
+			border: 1px solid rgba(31, 41, 55, 0.08);
+			border-radius: 28px;
+			box-shadow: var(--shadow);
+			overflow: hidden;
+		}
+
+		.viz-wrap {
+			padding: 18px 18px 8px;
+		}
+
+		svg {
+			width: 100%;
+			height: auto;
+			display: block;
+			overflow: visible;
+		}
+
+		.axis text {
+			font-family: Arial, sans-serif;
+			font-size: 12px;
+		}
+
+		.axis path,
+		.axis line {
+			stroke: rgba(31, 41, 55, 0.25);
+		}
+
+		.grid line {
+			stroke: var(--grid);
+			shape-rendering: crispEdges;
+		}
+	</style>
+</head>
+<body>
+	<main class="page">
+		<section class="card">
+			<div class="viz-wrap">
+				<h2 id="chart-title" style="margin: 0 0 20px 0; font-size: 1.5rem;">Substantiation Rate by Complainant Race</h2>
+				<svg id="chart" aria-label="Substantiation rate by complainant race"></svg>
+			</div>
+		</section>
+	</main>
+
+	<script>
+		const width = 1040;
+		const height = 560;
+		const margin = { top: 40, right: 30, bottom: 120, left: 60 };
+
+		d3.csv("dataset.csv", d3.autoType).then((rows) => {
+			// Filter for rows with complainant_ethnicity
+			const filtered = rows.filter((d) => d.complainant_ethnicity);
+
+			// Group by ethnicity and calculate substantiation rate
+			const grouped = d3.rollups(
+				filtered,
+				(values) => {
+					const substantiated = values.filter((d) => String(d.board_disposition || "").startsWith("Substantiated")).length;
+					return {
+						race: values[0].complainant_ethnicity,
+						total: values.length,
+						substantiated,
+						rate: substantiated / values.length
+					};
+				},
+				(d) => d.complainant_ethnicity
+			).map(([, value]) => value)
+				.sort((a, b) => d3.descending(a.rate, b.rate));
+
+			const svg = d3.select("#chart")
+				.attr("viewBox", `0 0 ${width} ${height}`)
+				.attr("preserveAspectRatio", "xMidYMid meet");
+
+			const plot = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+			const plotWidth = width - margin.left - margin.right;
+			const plotHeight = height - margin.top - margin.bottom;
+
+			// X-axis scale (categorical)
+			const x = d3.scaleBand()
+				.domain(grouped.map((d) => d.race))
+				.range([0, plotWidth])
+				.paddingInner(0.2)
+				.paddingOuter(0.1);
+
+			// Y-axis scale (0 to 1 for rates)
+			const y = d3.scaleLinear()
+				.domain([0, 1])
+				.range([plotHeight, 0]);
+
+			// Grid lines for Y-axis
+			plot.append("g")
+				.attr("class", "grid")
+				.call(d3.axisLeft(y).tickSize(-plotWidth).tickFormat(() => ""))
+				.selectAll(".domain")
+				.remove();
+
+			// Y-axis with percentage formatting
+			plot.append("g")
+				.attr("class", "axis")
+				.call(d3.axisLeft(y).tickFormat(d3.format(".0%")));
+
+			// Y-axis label
+			plot.append("text")
+				.attr("transform", "rotate(-90)")
+				.attr("y", 0 - margin.left)
+				.attr("x", 0 - plotHeight / 2)
+				.attr("dy", "1em")
+				.style("text-anchor", "middle")
+				.style("fill", "var(--text)")
+				.style("font-weight", "bold")
+				.text("Substantiation Rate");
+
+			// X-axis
+			plot.append("g")
+				.attr("class", "axis")
+				.attr("transform", `translate(0,${plotHeight})`)
+				.call(d3.axisBottom(x))
+				.selectAll("text")
+				.style("text-anchor", "end")
+				.attr("transform", "rotate(-45)")
+				.attr("dx", "-0.5em")
+				.attr("dy", "0.5em");
+
+			// X-axis label
+			plot.append("text")
+				.attr("x", plotWidth / 2)
+				.attr("y", plotHeight + margin.bottom - 10)
+				.style("text-anchor", "middle")
+				.style("fill", "var(--text)")
+				.style("font-weight", "bold")
+				.text("Complainant Race");
+
+			// Draw bars
+			plot.selectAll("rect.bar")
+				.data(grouped)
+				.join("rect")
+				.attr("class", "bar")
+				.attr("x", (d) => x(d.race))
+				.attr("y", (d) => y(d.rate))
+				.attr("width", x.bandwidth())
+				.attr("height", (d) => plotHeight - y(d.rate))
+				.attr("fill", "#0f766e")
+				.attr("opacity", 0.85);
+
+			// Add percentage labels on top of bars
+			plot.selectAll("text.bar-label")
+				.data(grouped)
+				.join("text")
+				.attr("class", "bar-label")
+				.attr("x", (d) => x(d.race) + x.bandwidth() / 2)
+				.attr("y", (d) => y(d.rate) - 8)
+				.attr("text-anchor", "middle")
+				.style("font-weight", "bold")
+				.style("font-size", "13px")
+				.style("fill", "#1f2937")
+				.text((d) => d3.format(".1%")(d.rate));
+
+		}).catch((error) => {
+			d3.select(".viz-wrap")
+				.html(`<div class="error">Could not load dataset.csv. Make sure Live Server is running and the CSV is being served from the same folder as this HTML file.<br><br>${error.message}</div>`);
+		});
+	</script>
+</body>
+</html>
