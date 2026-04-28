@@ -124,9 +124,9 @@
 				.paddingInner(0.2)
 				.paddingOuter(0.1);
 
-			// Y-axis scale (0 to 1 for rates)
+			// Y-axis scale (0 to 50% for rates)
 			const y = d3.scaleLinear()
-				.domain([0, 1])
+				.domain([0, 0.5])
 				.range([plotHeight, 0]);
 
 			// Grid lines for Y-axis
@@ -181,7 +181,7 @@
 				.attr("y", (d) => y(d.rate))
 				.attr("width", x.bandwidth())
 				.attr("height", (d) => plotHeight - y(d.rate))
-				.attr("fill", "#0f766e")
+				.attr("fill", (d) => String(d.race).toLowerCase() === "black" ? "#991b1b" : "#4b5563")
 				.attr("opacity", 0.85);
 
 			// Add percentage labels on top of bars
