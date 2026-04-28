@@ -25,7 +25,7 @@
 
         body {
             margin: 0;
-            font-family: Georgia, "Times New Roman", serif;
+            font-family: system-ui, sans-serif;
             color: var(--text);
             background:
                 radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 26%),
@@ -89,7 +89,7 @@
 
     <script>
         const width = 1040;
-        const height = 560;
+        const height = 720;
         const margin = {top: 40, right: 30, bottom: 120, left: 60};
 
         d3.csv("dataset.csv", d3.autoType).then((rows) => {
@@ -127,9 +127,11 @@
                 .paddingInner(0.2)
                 .paddingOuter(0.1);
 
-            // Y-axis scale (0 to 50% for rates)
+            // Y-axis scale — both floor and ceiling are tight around the data to amplify visual differences
+            const minRate = d3.min(grouped, d => d.rate);
+            const maxRate = d3.max(grouped, d => d.rate);
             const y = d3.scaleLinear()
-                .domain([0, 0.5])
+                .domain([minRate * 0.85, 0.4])
                 .range([plotHeight, 0]);
 
             // Grid lines for Y-axis

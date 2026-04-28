@@ -105,6 +105,16 @@
 
         /* Figures */
 
+        .score {
+            display: inline-block;
+            font-weight: bold;
+            font-size: 85%;
+            background: var(--color-neutral-90);
+            padding: 0.1em 0.4em;
+            border-radius: 0.3em;
+            margin-left: 0.3em;
+        }
+
         figure {
             margin: 1em 0;
             padding: 0.5rem;
@@ -116,7 +126,7 @@
 
             iframe {
                 width: 100%;
-                height: 720px;
+                height: 880px;
                 border: 0;
                 display: block;
             }
@@ -171,7 +181,7 @@
             <figure>
                 <iframe src="supportingvisualization.html"
                     title="Supporting visualization: NYPD complaint substantiation rates"></iframe>
-                <figcaption>BRIEF CAPTION HERE.</figcaption>
+                <figcaption>Black New Yorkers' misconduct reports are least likely to be validated — substantiated at a rate one-third lower than the group most likely to receive a finding in their favor.</figcaption>
             </figure>
 
             <p>Design Decisions and Rationale:</p>
@@ -181,25 +191,36 @@
                     We aggregated the complaints into substantiation rates by complainant race instead of showing raw
                     counts. That makes the categories directly comparable and keeps the chart focused on the claim we
                     are trying to support. We considered counts, but rates are more persuasive here because they account
-                    for different group sizes. Score: 1 (reasonably earnest)
+                    for different group sizes. <span class="score">Score: 1 (reasonably earnest)</span>
                 </li>
                 <li>
                     We sorted the bars from highest to lowest substantiation rate so the gap between groups is visible
                     at a glance. That ordering makes the comparison easier to read and gives the chart a clearer
                     argumentative structure. An alphabetical order would have felt more neutral, but it would also have
-                    buried the pattern we wanted readers to notice. Score: 2 (earnest)
+                    buried the pattern we wanted readers to notice. <span class="score">Score: 2 (earnest)</span>
                 </li>
                 <li>
                     We labeled each bar with its exact percentage so readers do not have to estimate values from the
                     axis. The labels make the message more immediate and help viewers verify the differences without
                     extra effort. This worked well because the chart is compact enough that the labels still remain
-                    readable. Score: 2 (earnest)
+                    readable. <span class="score">Score: 2 (earnest)</span>
                 </li>
                 <li>
                     We gave the Black bar a different color from the rest so it stands out as the key case in the
                     comparison. That helps direct attention to the group that most strongly supports the proposition. We
-                    kept the other bars in a single muted color so the chart does not become visually noisy. Score: -0.5
-                    (somewhat deceptive)
+                    kept the other bars in a single muted color so the chart does not become visually noisy. <span
+                        class="score">Score: -0.5 (somewhat deceptive)</span>
+                </li>
+                <li>
+                    We truncated the Y-axis to span only the range 22%–40% instead of starting at
+                    zero, making the gap between Black complainants and other groups look far larger than the data would
+                    suggest. The 12% difference reads as dramatic, but falls short
+                    in that the bar labels still show exact percentages, so a careful reader can catch it. We considered
+                    a zero-baseline (honest but flat), a log scale (which would be strange for rates), and a binary
+                    "Black vs. all others" chart (loses per-group context and makes it easier to see deception due to
+                    the lack of clutter). Truncation won because it needs
+                    no data manipulation and is technically accurate, just visually misleading. <span
+                        class="score">Score: -1 (deceptive)</span>
                 </li>
             </ul>
         </section>
