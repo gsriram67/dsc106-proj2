@@ -155,6 +155,7 @@
                 }
             }
         }
+
         figure img {
             width: 100%;
             height: auto;
@@ -186,7 +187,8 @@
             <figure>
                 <iframe src="supportingvisualization.html"
                     title="Supporting visualization: NYPD complaint substantiation rates"></iframe>
-                <figcaption>Black New Yorkers' misconduct reports are least likely to be validated — substantiated at a rate one-third lower than the group most likely to receive a finding in their favor.</figcaption>
+                <figcaption>Black New Yorkers' misconduct reports are least likely to be validated — substantiated at a
+                    rate one-third lower than the group most likely to receive a finding in their favor.</figcaption>
             </figure>
 
             <p>Design Decisions and Rationale:</p>
@@ -220,7 +222,7 @@
                     We truncated the Y-axis to span only the range 22%–40% instead of starting at
                     zero, making the gap between Black complainants and other groups look far larger than the data would
                     suggest. The 12% difference reads as dramatic, but falls short
-                    in that the bar labels still show exact percentages, so a careful reader can catch it. We considered  
+                    in that the bar labels still show exact percentages, so a careful reader can catch it. We considered
                     a zero-baseline (honest but flat), a log scale (which would be strange for rates), and a binary
                     "Black vs. all others" chart (loses per-group context and makes it easier to see deception due to
                     the lack of clutter). Truncation won because it needs
@@ -235,29 +237,31 @@
 
             <figure>
                 <img src="against-visualization.png" alt="">
-                <figcaption>Black complainants account for more cumulative substantiated CCRB allegations than all other groups combined</figcaption>
+                <figcaption>Black complainants account for more cumulative substantiated CCRB allegations than all other
+                    groups combined</figcaption>
             </figure>
 
             <p>Design Decisions and Rationale:</p>
 
             <ul>
-                <li>The total substantiated complaints were aggregated into Black and non-Black groups. This reduces 
-                    clutter and streamlines the visualization, making it easy to read for the viewer. It makes the 
-                    difference between the two groups immediately clear but it hides the variation in substantiation 
-                    between ethnic groups. <span
-                        class="score">Score: -1 (Somewhat Deceptive)</span>
+                <li>The total substantiated complaints were aggregated into Black and non-Black groups. This reduces
+                    clutter and streamlines the visualization, making it easy to read for the viewer. It makes the
+                    difference between the two groups immediately clear but it hides the variation in substantiation
+                    between ethnic groups. <span class="score">Score: -1 (Somewhat Deceptive)</span>
                 </li>
-                <li>We decided to focus specifically on the cumulative totals in substantiation rather than the 
-                    substantiation rate. This creates a more persuasive visualization because cumulative total for 
-                    substantiated complaints is higher for black complainants overall. However, it glosses over important 
-                    nuances in the likelihood of substantiation. <span
-                        class="score">Score: -2 (Fully Deceptive)</span>
+                <li>We decided to focus specifically on the cumulative totals in substantiation rather than the
+                    substantiation rate. This creates a more persuasive visualization because cumulative total for
+                    substantiated complaints is higher for black complainants overall. However, it glosses over
+                    important
+                    nuances in the likelihood of substantiation. <span class="score">Score: -2 (Fully Deceptive)</span>
                 </li>
-                <li>The y-axis starts at zero which preserves the scale of the data. We could have truncated the axis but it 
-                    would distort the size of the gap between the two groups. <span
-                        class="score">Score: 1 (Earnest)</span>
+                <li>The y-axis starts at zero which preserves the scale of the data. We could have truncated the axis
+                    but it
+                    would distort the size of the gap between the two groups. <span class="score">Score: 1
+                        (Earnest)</span>
                 </li>
-                <li>A shaded area was added between the two lines on the visualization. We have considered using only the 
+                <li>A shaded area was added between the two lines on the visualization. We have considered using only
+                    the
                     lines, but shading draws viewers attention towards the gap and the overall trend of the graph. <span
                         class="score">Score: -0.5 (Slightly Deceptive)</span>
                 </li>
@@ -267,7 +271,20 @@
         <section>
             <h2>Final Reflection</h2>
 
-            <p>[WRITE FINAL REFLECTION PARAGRAPHS HERE.]</p>
+            <p>Our design process spanned the creation of multiple exploratory charts. Initially, this was done to
+                discover aggregations and frames that could deceive a viewer in favor of each side of our proposition.
+                Once we had decided on a specific chart for a side of the proposition, we faced a much more difficult
+                task of taking a small misrepresentation and magnifying it. Specifically, for our proposition we faced
+                the specificity dilemma: how could we draw attention away from the facts and instead focus the viewer
+                exactly on the narrative we wanted to push? Tweaking the visuals without outright lying was tough. For
+                example, cropping the Y-axis to just 22%–40% and making the Black bar bright red took some trial and
+                error to make the gap look dramatic but still believable. We were surprised by how easily we
+                could completely flip the story just by changing the metric. Switching from substantiation rates to
+                cumulative totals and lumping everyone else into a single "non-Black" area chart made it look like Black
+                complainants were the overwhelming majority, which is crazy since it's the exact opposite takeaway of
+                our first chart. Because of this, We'd now define "ethical analysis and visualization" as not exploiting
+                how people naturally read graphs. It means showing the full context instead of cherry-picking or hiding
+                data just to force a specific conclusion.</p>
         </section>
     </main>
     <script defer="defer" src="index_files/v8c78df7c7c0f484497ecbca7046644da1771523124516"
