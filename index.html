@@ -220,7 +220,7 @@
                     We truncated the Y-axis to span only the range 22%–40% instead of starting at
                     zero, making the gap between Black complainants and other groups look far larger than the data would
                     suggest. The 12% difference reads as dramatic, but falls short
-                    in that the bar labels still show exact percentages, so a careful reader can catch it. We considered
+                    in that the bar labels still show exact percentages, so a careful reader can catch it. We considered  
                     a zero-baseline (honest but flat), a log scale (which would be strange for rates), and a binary
                     "Black vs. all others" chart (loses per-group context and makes it easier to see deception due to
                     the lack of clutter). Truncation won because it needs
@@ -235,15 +235,32 @@
 
             <figure>
                 <img src="against-visualization.png" alt="">
-                <figcaption>BRIEF CAPTION HERE.</figcaption>
+                <figcaption>Black complainants account for more cumulative substantiated CCRB allegations than all other groups combined</figcaption>
             </figure>
 
             <p>Design Decisions and Rationale:</p>
 
             <ul>
-                <li>RATIONALE_1</li>
-                <li>RATIONALE_2</li>
-                <li>RATIONALE_3</li>
+                <li>The total substantiated complaints were aggregated into Black and non-Black groups. This reduces 
+                    clutter and streamlines the visualization, making it easy to read for the viewer. It makes the 
+                    difference between the two groups immediately clear but it hides the variation in substantiation 
+                    between ethnic groups. <span
+                        class="score">Score: -1 (Somewhat Deceptive)</span>
+                </li>
+                <li>We decided to focus specifically on the cumulative totals in substantiation rather than the 
+                    substantiation rate. This creates a more persuasive visualization because cumulative total for 
+                    substantiated complaints is higher for black complainants overall. However, it glosses over important 
+                    nuances in the likelihood of substantiation. <span
+                        class="score">Score: -2 (Fully Deceptive)</span>
+                </li>
+                <li>The y-axis starts at zero which preserves the scale of the data. We could have truncated the axis but it 
+                    would distort the size of the gap between the two groups. <span
+                        class="score">Score: 1 (Earnest)</span>
+                </li>
+                <li>A shaded area was added between the two lines on the visualization. We have considered using only the 
+                    lines, but shading draws viewers attention towards the gap and the overall trend of the graph. <span
+                        class="score">Score: -0.5 (Slightly Deceptive)</span>
+                </li>
             </ul>
         </section>
 
